@@ -68,11 +68,11 @@ function initMap() {
 	  		var pageId = Object.keys(data.query.pages);
 	  		for (var i=0; i<pageId.length; i++) { //would this be a good place to use map( )?
 	  			state.wikiData[i] = data.query.pages[pageId[i]]; 
-	  			state.wikiData[i].coordinates[0].lat = parseInt(state.wikiData[i].coordinates[0].lat);
-	  			state.wikiData[i].coordinates[0].lng = parseInt(state.wikiData[i].coordinates[0].lon);
+	  			state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
+	  			state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
 
 	  		}
-	  		console.log(state.wikiData)
+	  		console.log(state.wikiData[0].coordinates[0].lat)
 	  		displayWikiList(state);
 	  		displayMarker(state);
 	  	}
@@ -82,13 +82,22 @@ function initMap() {
   function displayMarker(state) {
   	var markers = [];
 	  for (var j=0; j<state.wikiData.length; j++) {  	  	
+	  	var infowindow = new google.maps.InfoWindow({
+        content: state.wikiData[j].title,
+        maxWidth: 200
+        });
+
 	  	var marker = new google.maps.Marker({
         position: state.wikiData[j].coordinates[0],
         map: map,
         title: 'Uluru (Ayers Rock)'
         });
         markers.push(marker);
-	  }
+	  	}
+
+	  	marker.addListener('click', function() {
+        infowindow.open(map, marker);
+        });
   }
 
   function displayWikiList(state) {
