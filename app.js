@@ -1,13 +1,14 @@
 
 "use strict";
 
-// Note: This example requires that you consent to location sharing when
+// From Google API: 'Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
-// locate you.
+// locate you.'
 
 var state = {
 	userLocation: {},
+	wikiUrl: "",
 	wikiData: [], // array of objects { title: object.title,  url: .url, img: , desc: }
 };
 
@@ -26,7 +27,7 @@ function initMap() {
   		maxWidth: 200
   	});
 
-  // Try HTML5 geolocation. This will be replaced with zipcode API code. 
+  // Try HTML5 geolocation.--- this will be replaced with zipcode API code. 
   if (navigator.geolocation) {
   	navigator.geolocation.getCurrentPosition(function(position) {
 
@@ -36,9 +37,11 @@ function initMap() {
   		};
   		console.log(pos)
   		state.userLocation = pos;
-  		console.log(state.userLocation);
 
-  		getWikiDataUrl(state);
+
+  		getWikiUrl(state);
+  		getWikiData(state);
+  		displayWikiList(state);
 
   		infoWindow.setPosition(pos);
   		infoWindow.setContent('Location found.');
@@ -51,30 +54,43 @@ function initMap() {
 	   handleLocationError(false, infoWindow, map.getCenter());
   }
 
-  // need async=false call bc have to wait for map coordinates? JSONP doesn't take async false... will nesting in function work?
-  function getWikiDataUrl(state) {
-	var wikiGeoDataUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%' + state.userLocation.lng + '&ggsradius=10000&ggslimit=50';
+
+
+
+  // wiki call with hardcode coordinates
+  function getWikiUrl(state) {
+	//state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%' + state.userLocation.lng + '&ggsradius=10000&ggslimit=50&callback=?';
+  	state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&ggscoord=37.786952%7C-122.399523&ggsradius=10000&ggslimit=50&callback=?';
   }
 
-	function getWikiData(searchTerm, callback) {
-	  var query = {
-	  }
-	  $.getJSON(wikiGeoDataUrl, query, callback);
-	} 
 
-	$(function(){getWikiData();});
+  function getWikiData(state) {
+	  $.ajax({
+	  	url: state.wikiUrl,
+	  	dataType: 'jsonp',
+	  	type: 'POST', 
+	  	success: function(data) {
+	  		var pageId = Object.keys(data.query.pages);
+	  		for (var i=0; i<pageId.length; i++) { //would this be a good place to use map( )?
+	  			state.wikiData[i] = data.query.pages[pageId[i]]; 
+	  		}
+	  		console.log(state.wikiData)
+	  	}
+	  })
+  };
 
 
-  //add new markers
-  var newLatLng = {lat: "", lng: ""}
-  
-  var marker = new google.maps.Marker({
-		position: newLatLng,
-		map: map,
-		title: 'Hello World!'
-  });
-  
-  // template for wikipedia info windows
+  function displayWikiList(state) {
+  	var resultElement = '';
+  	for (var j=0; j<state.wikiData.length; j++) {
+  		console.log(state.wikiData[j].title);
+  		resultElement = '<h1 class="title">' + state.wikiData[j].title + '</h1>';
+  	}
+  	$('#results-container').html(resultElement);
+  };
+
+
+//infoWindow text. work in progress...
   var infoTitle = "";
   var infoMainText = "";
   var contentString = '<div id="content">'+
@@ -85,7 +101,14 @@ function initMap() {
 	        	'<p>' + infoMainText + '</p>'+
 	        '</div>'+
         '</div>';
-}
+
+
+}//end initMap function
+
+
+
+
+
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 	infoWindow.setPosition(pos);
