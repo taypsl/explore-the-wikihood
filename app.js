@@ -21,11 +21,7 @@ function initMap() {
   });
   
   //maxWidth info window -- this might be different than wiki info window. slash I'll get rid of it after zipcodeapi implemented	
-  var infoWindow = new google.maps.InfoWindow({
-  		map: map,
-  		content: contentString, //this should definitely go with wiki article part
-  		maxWidth: 200
-  	});
+
 
   // Try HTML5 geolocation.--- this will be replaced with zipcode API code. 
   if (navigator.geolocation) {
@@ -41,11 +37,10 @@ function initMap() {
 
   		getWikiUrl(state);
   		getWikiData(state);
-  		displayWikiList(state);
   		console.log(state.wikiUrl);
 
-  		infoWindow.setPosition(pos);
-  		infoWindow.setContent('Location found.');
+  		//infoWindow.setPosition(pos);
+  		//infoWindow.setContent('Location found.');
   		map.setCenter(pos);
   	}, function() {
   		handleLocationError(true, infoWindow, map.getCenter());
@@ -60,7 +55,7 @@ function initMap() {
 
   // wiki call with hardcode coordinates
   function getWikiUrl(state) {
-	state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=50&callback=?';
+	state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5&callback=?';
   }
 
 
@@ -73,22 +68,42 @@ function initMap() {
 	  		var pageId = Object.keys(data.query.pages);
 	  		for (var i=0; i<pageId.length; i++) { //would this be a good place to use map( )?
 	  			state.wikiData[i] = data.query.pages[pageId[i]]; 
+	  			state.wikiData[i].coordinates[0].lat = parseInt(state.wikiData[i].coordinates[0].lat);
+	  			state.wikiData[i].coordinates[0].lng = parseInt(state.wikiData[i].coordinates[0].lon);
+
 	  		}
 	  		console.log(state.wikiData)
+	  		displayWikiList(state);
+	  		displayMarker(state);
 	  	}
 	  })
   };
 
+  function displayMarker(state) {
+  	var markers = [];
+	  for (var j=0; j<state.wikiData.length; j++) {  	  	
+	  	var marker = new google.maps.Marker({
+        position: state.wikiData[j].coordinates[0],
+        map: map,
+        title: 'Uluru (Ayers Rock)'
+        });
+        markers.push(marker);
+	  }
+  }
 
   function displayWikiList(state) {
   	var resultElement = '';
   	for (var j=0; j<state.wikiData.length; j++) {
   		console.log(state.wikiData[j].title);
-  		resultElement = '<h1 class="title">' + state.wikiData[j].title + '</h1>';
+  		resultElement += '<h1 class="title">' + state.wikiData[j].title + '</h1>';
   	}
   	$('#results-container').html(resultElement);
+  	console.log(resultElement);
   };
 
+
+
+// https://en.wikipedia.org/?curid=4860
 
 //infoWindow text. work in progress...
   var infoTitle = "";
