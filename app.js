@@ -1,48 +1,4 @@
-
-/*"use strict";
-
-
-var zipcodeToLatLongUrl = 'https://www.zipcodeapi.com/rest/bnU0ZLm4gtxtgnEPnWC3gxSJdbx9mYeym8zlUVqbpXEFlivIf7LvEEfSPN1cMfL8/info.json/94703/degrees';
-
-function getDataFromApi(searchTerm, callback) {
-  var query = {
-  }
-  $.getJSON(zipcodetoLatLongUrl, query, callback);
-} 
-
-
-function callback(data) {
-  console.log(data);
-}
-
-function findZipcode() {
-  $('.zipcode-search').submit(function(e) {
-    e.preventDefault();
-    var query = $(this).find('.zipcode-input').val();
-    getDataFromApi(query, callback);
-  });
-
-}
-
-
-// wikipedia api 
-$(function(){findZipcode();}); 
-
-$(document).ready(function() {
-
-	var wikiGeoDataUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&ggscoord=37.786952%7C-122.399523&ggsradius=10000&ggslimit=50';
-
-	function getWikiData(searchTerm, callback) {
-	  var query = {
-	  }
-	  $.getJSON(wikiGeoDataUrl, query, callback);
-	  console.log(query);
-	} 
-
-	$(function(){getWikiData();}); 
-
-});
-*/
+"use strict";
 
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
@@ -50,35 +6,83 @@ $(document).ready(function() {
 // locate you.
 
 function initMap() {
+  var startingLocation = {lat: 51.531703, lng: -0.124310}
+
   var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 6
+		center: startingLocation,
+		zoom: 6
   });
-  var infoWindow = new google.maps.InfoWindow({map: map});
+  
+  //maxWidth info window -- this might be different than wiki info window. slash I'll get rid of it after zipcodeapi implemented	
+  var infoWindow = new google.maps.InfoWindow({
+  		map: map,
+  		content: contentString, //this should definitely go with wiki article part
+  		maxWidth: 200
+  	});
 
-  // Try HTML5 geolocation.
+  // Try HTML5 geolocation. This will be replaced with zipcode API code. 
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+  	navigator.geolocation.getCurrentPosition(function(position) {
 
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
+  		var pos = {
+  			lat: position.coords.latitude,
+  			lng: position.coords.longitude
+  		};
+
+  		infoWindow.setPosition(pos);
+  		infoWindow.setContent('Location found.');
+  		map.setCenter(pos);
+  	}, function() {
+  		handleLocationError(true, infoWindow, map.getCenter());
+  	});
   } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
+	   // Browser doesn't support Geolocation
+	   handleLocationError(false, infoWindow, map.getCenter());
   }
+
+  // Add new markers from Wikipedia nearby pages API
+  var wikiGeoDataUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + userSearch + '&ggsradius=10000&ggslimit=50';
+  var userGeoData = '&ggscoord=' + userLat + '%' + userLng; // or var userLat and useLng with wikiGDU concatenated
+  var searchResults = [];
+	
+	function getWikiData(searchTerm, callback) {
+	  var query = {
+	  }
+	  $.getJSON(wikiGeoDataUrl, query, callback);
+	  console.log(query);
+	} 
+
+	$(function(){getWikiData();});
+
+  var newLatLng = {lat: "", lng: ""}
+  
+  var marker = new google.maps.Marker({
+		position: newLatLng,
+		map: map,
+		title: 'Hello World!'
+  });
+  
+  // template for wikipedia info windows
+  var infoTitle = "";
+  var infoMainText = "";
+  var contentString = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+	        '<h1 id="firstHeading" class="firstHeading">' + infoTitle + '</h1>'+
+	        '<div id="bodyContent">'+
+	        	'<p>' + infoMainText + '</p>'+
+	        '</div>'+
+        '</div>';
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
+	infoWindow.setPosition(pos);
+	infoWindow.setContent(browserHasGeolocation ?
+		'Error: The Geolocation service failed.' :
+		'Error: Your browser doesn\'t support geolocation.');
+}
+
+function addLocations() {
+	var articlelocations = {lat: "", lng: ""}
+
 }
