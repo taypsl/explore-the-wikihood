@@ -42,6 +42,7 @@ function initMap() {
   		getWikiUrl(state);
   		getWikiData(state);
   		displayWikiList(state);
+  		console.log(state.wikiUrl);
 
   		infoWindow.setPosition(pos);
   		infoWindow.setContent('Location found.');
@@ -59,8 +60,7 @@ function initMap() {
 
   // wiki call with hardcode coordinates
   function getWikiUrl(state) {
-	//state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%' + state.userLocation.lng + '&ggsradius=10000&ggslimit=50&callback=?';
-  	state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&ggscoord=37.786952%7C-122.399523&ggsradius=10000&ggslimit=50&callback=?';
+	state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=50&callback=?';
   }
 
 
