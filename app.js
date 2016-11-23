@@ -10,7 +10,7 @@ var state = {
 	userLocation: {},
 	wikiUrl: "",
 	wikiData: [], // array of objects { title: object.title,  url: .url, img: , desc: }
-
+	markers: []
 };
 
   //initialize map
@@ -105,9 +105,6 @@ function getWikiGeoData(state) {
 
 // functions that display to screen
 function displayWikiMarkers(state) {
-	var markers = [];
-
-	console.log(state.wikiData);
 	for (var j=0; j<state.wikiData.length; j++) {
 		var pageId = state.wikiData[j].pageid;
 		var pageTitle = state.wikiData[j].title;
@@ -128,14 +125,15 @@ function displayWikiMarkers(state) {
 			map: map,
 			title: pageTitle,
 			infowindow: myinfowindow
+			//icon: 'http://1.bp.blogspot.com/_GZzKwf6g1o8/S6xwK6CSghI/AAAAAAAAA98/_iA3r4Ehclk/s1600/marker-green.png'
 		});
 
-		console.log(extract);
-        
     	google.maps.event.addListener(marker, 'click', function() {
         	this.infowindow.open(map, this);
 		});
+		state.markers.push(marker)
 	}
+	console.log(state.markers);
 }
 
 
@@ -146,15 +144,15 @@ function displayWikiMarkers(state) {
 function displayWikiList(state) {
     var resultElement = '';
     for (var j=0; j<state.wikiData.length; j++) {
-      console.log(state.wikiData[j].title);
       resultElement += '<h1 class="title">' + state.wikiData[j].title + '</h1>';
     }
     $('#results-container').html(resultElement);
-    console.log(resultElement);
 };
 
-
-
+$('#results-container').on('mouseover', '.title', function(e) {
+	var index = $(this).index();
+	state.markers[index].setIcon('http://1.bp.blogspot.com/_GZzKwf6g1o8/S6xwK6CSghI/AAAAAAAAA98/_iA3r4Ehclk/s1600/marker-green.png');
+})
 
 //listeners
 $('.submit').on('click', function(e) {
