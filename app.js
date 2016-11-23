@@ -10,13 +10,14 @@ var state = {
 	userLocation: {},
 	wikiUrl: "",
 	wikiData: [], // array of objects { title: object.title,  url: .url, img: , desc: }
+
 };
 
   //initialize map
-  var geocoder;
-  var map;
+var geocoder;
+var map;
   
-  function initialize() {
+function initialize() {
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(51.531703, -0.124310);
     var mapOptions = {
@@ -24,20 +25,18 @@ var state = {
       center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  }
+}
 
-  // functions that retrieve information 
-
-  //user location automatically found with Geolocation
-  function getCurrentLocation() {
+// functions that retrieve information 
+//user location automatically found with Geolocation
+function getCurrentLocation() {
     if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
+      navigator.geolocation.getCurrentPosition(function(position) {
 
       var pos = {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      console.log(pos)
       state.userLocation = pos;
 
 
@@ -52,17 +51,17 @@ var state = {
      // Browser doesn't support Geolocation
      handleLocationError(false, infoWindow, map.getCenter());
     }
-  };
+};
 
-  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
       'Error: The Geolocation service failed.' :
       'Error: Your browser doesn\'t support geolocation.');
-  };
+};
 
-  // user inputs address
-  function geocodeSearch(state) {
+// user inputs address
+function geocodeSearch(state) {
     var addressSearch = document.getElementById('address').value;
     geocoder.geocode( { 'address': addressSearch}, function(results, status) {
       if (status == 'OK') {
@@ -80,40 +79,57 @@ var state = {
             position: results[0].geometry.location
         });
 
-        //change this alert text "Whoops! Try your search again."
+        //change this alert text "Whoops, that address didn't work! Try your search again."
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
       }
     });
-  }
+}
 
-  function getWikiUrl(state) {
+function getWikiUrl(state) {
     state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5&callback=?';
-  }
+}
 
-  function getWikiGeoData(state) {
+function getWikiGeoData(state) {
     $.ajax({
-      url: state.wikiUrl,
-      dataType: 'jsonp',
-      type: 'POST', 
-      success: function(data) {
-        console.log(data.query.pages);
-        var pageId = Object.keys(data.query.pages);
-        for (var i=0; i<pageId.length; i++) { //would this be a good place to use map( )?
-          state.wikiData[i] = data.query.pages[pageId[i]]; 
-          state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
-          state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
-        }
+    	url: state.wikiUrl,
+    	dataType: 'jsonp',
+    	type: 'POST', 
+    	success: function(data) {
+    		var pageId = Object.keys(data.query.pages);
+	        for (var i=0; i<pageId.length; i++) { 
+	        	state.wikiData[i] = data.query.pages[pageId[i]]; 
+	        	state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
+	        	state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
+        	}
+        displayWikiMarkers(state);
         displayWikiList(state);
+    	}
+	})
+};
 
-      }
-    })
-  };
 
+// functions that display to screen
+function displayWikiMarkers(state) {
+	var markers = [];
+	for (var j=0; j<state.wikiData.length; j++) {
+		var marker = new google.maps.Marker({
+			position: state.wikiData[j].coordinates[0],
+			map: map,
+			title: state.wikiData[j].title,
+		});
 
-  // functions that display to screen
+		var infoWindow = new google.maps.InfoWindow({
+			content: state.wikiData[j].title, 
+			maxWidth: 200
+		});
 
-  function displayWikiList(state) {
+		marker.addListener('click', function() {
+			infoWindow.open(map, marker);
+		});
+	}
+}
+function displayWikiList(state) {
     var resultElement = '';
     for (var j=0; j<state.wikiData.length; j++) {
       console.log(state.wikiData[j].title);
@@ -121,22 +137,24 @@ var state = {
     }
     $('#results-container').html(resultElement);
     console.log(resultElement);
-  };
+};
 
 
-  //listeners
-  $('.submit').on('click', function(e) {
+
+
+//listeners
+$('.submit').on('click', function(e) {
       initialize();
       geocodeSearch(state);
       $('.zipcode-search').addClass('new-search');
-    });
+});
 
-  $('.find-me').on('click', function(e) {
+$('.find-me').on('click', function(e) {
       initialize();
       getCurrentLocation(state);
       $('.zipcode-search').addClass('new-search');
       $('.find-me').addClass('hidden');
-    });
+});
 
 
 
