@@ -11,3 +11,30 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+.zipcode-search, .find-me {
+	text-align: center;
+	z-index: 100;
+}
+
+.new-search {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#results-container {
+	width: 200px;
+	color: black;
+	font-size: .5em;
+	padding-left: 10px;
+	background-color: gainsboro;
+	position: absolute;
+	right: 0;
+	top: 10;
+	z-index: 10;
+}
+
+.hidden {
+	display: none;
+}
