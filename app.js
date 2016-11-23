@@ -87,8 +87,8 @@ function geocodeSearch(state) {
 }
 
 function getWikiUrl(state) {
-    state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5&callback=?';
-}
+    state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms%7Cextracts&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5';
+} 
 
 function getWikiGeoData(state) {
     $.ajax({
@@ -102,6 +102,7 @@ function getWikiGeoData(state) {
 	        	state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
 	        	state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
         	}
+        	console.log(state.wikiData);
         displayWikiMarkers(state);
         displayWikiList(state);
     	}
@@ -112,23 +113,47 @@ function getWikiGeoData(state) {
 // functions that display to screen
 function displayWikiMarkers(state) {
 	var markers = [];
+	var infowindow = new google.maps.InfoWindow({
+		content: contentString, 
+		maxWidth: 200
+	});
+
 	for (var j=0; j<state.wikiData.length; j++) {
+		var pageId = state.wikiData[j].pageid;
+		var pageTitle = state.wikiData[j].title;
+		var extract = state.wikiData[j].extract;
+		var latlon = state.wikiData[j].coordinates[0];
+		var myinfowindow = new google.maps.InfoWindow({
+			content: contentString,
+			maxWidth: 300,
+		});
+
 		var marker = new google.maps.Marker({
-			position: state.wikiData[j].coordinates[0],
+			position: latlon,
 			map: map,
-			title: state.wikiData[j].title,
+			title: pageTitle,
+			infowindow: myinfowindow
 		});
 
-		var infoWindow = new google.maps.InfoWindow({
-			content: state.wikiData[j].title, 
-			maxWidth: 200
-		});
+		var contentString = '<div id="content">'+
+            '<h1 class="markerHeading"><a href="https://en.wikipedia.org/?curid=' +  pageId+ 
+            '">' + pageTitle+ '</a></h1>'+
+            '<p>' + extract + '</p>'+
+            '</div>';
 
-		marker.addListener('click', function() {
-			infoWindow.open(map, marker);
+		console.log(extract);
+        
+    	google.maps.event.addListener(marker, 'click', function() {
+        	this.infowindow.open(map, this);
 		});
 	}
 }
+
+
+
+/// what if infoWindow { content: contentString} and contentString = state.wikiData[j].title? and then
+/// search by position of object in array?
+
 function displayWikiList(state) {
     var resultElement = '';
     for (var j=0; j<state.wikiData.length; j++) {
