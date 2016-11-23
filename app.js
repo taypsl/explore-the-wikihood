@@ -73,12 +73,6 @@ function geocodeSearch(state) {
         getWikiUrl(state);
         getWikiGeoData(state);
 
-        //display marker of user location (remove this later)
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-
         //change this alert text "Whoops, that address didn't work! Try your search again."
       } else {
         alert('Geocode was not successful for the following reason: ' + status);
@@ -87,7 +81,7 @@ function geocodeSearch(state) {
 }
 
 function getWikiUrl(state) {
-    state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms%7Cextracts&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5';
+    state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms%7Cextracts&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&exchars=200&exlimit=20&exintro=1&' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5'
 } 
 
 function getWikiGeoData(state) {
@@ -102,7 +96,6 @@ function getWikiGeoData(state) {
 	        	state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
 	        	state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
         	}
-        	console.log(state.wikiData);
         displayWikiMarkers(state);
         displayWikiList(state);
     	}
@@ -113,16 +106,18 @@ function getWikiGeoData(state) {
 // functions that display to screen
 function displayWikiMarkers(state) {
 	var markers = [];
-	var infowindow = new google.maps.InfoWindow({
-		content: contentString, 
-		maxWidth: 200
-	});
 
+	console.log(state.wikiData);
 	for (var j=0; j<state.wikiData.length; j++) {
 		var pageId = state.wikiData[j].pageid;
 		var pageTitle = state.wikiData[j].title;
 		var extract = state.wikiData[j].extract;
 		var latlon = state.wikiData[j].coordinates[0];
+		var contentString = '<div id="content">'+
+        	'<h1 class="markerHeading"><a href="https://en.wikipedia.org/?curid=' +  pageId+ 
+        	'">' + pageTitle+ '</a></h1>'+
+        	'<p>' + extract + '</p>'+
+        	'</div>';
 		var myinfowindow = new google.maps.InfoWindow({
 			content: contentString,
 			maxWidth: 300,
@@ -134,12 +129,6 @@ function displayWikiMarkers(state) {
 			title: pageTitle,
 			infowindow: myinfowindow
 		});
-
-		var contentString = '<div id="content">'+
-            '<h1 class="markerHeading"><a href="https://en.wikipedia.org/?curid=' +  pageId+ 
-            '">' + pageTitle+ '</a></h1>'+
-            '<p>' + extract + '</p>'+
-            '</div>';
 
 		console.log(extract);
         
@@ -178,7 +167,7 @@ $('.find-me').on('click', function(e) {
       initialize();
       getCurrentLocation(state);
       $('.zipcode-search').addClass('new-search');
-      $('.find-me').addClass('hidden');
+      $('.find-me').addClass('hidden'); // delete this...
 });
 
 
