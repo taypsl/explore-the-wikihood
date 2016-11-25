@@ -5,20 +5,22 @@
 		<meta name="viewport" content="width=device-width">
 		<title>WikiHood Test</title>
 		<link rel="stylesheet" href="main.css" >
+		<link href="https://fonts.googleapis.com/css?family=Raleway|Cinzel|Oswald:300|Playfair+Display+SC|Titillium+Web:300" rel="stylesheet">
 	</head>
 	<body>
 		
-		<div class="landing-page">
-			<h1 class="page-title">Explore the WikiHood</h1>
-		</div>
-
-		<div class="zipcode-search">
-			<input id="address" type="textbox" placeholder="Enter Location">
-			<input class="submit" type="button" value="Search">
-			<input class="find-me" type="button" value="Find My Location">
-		</div>
-		
-		<div class="sidebar">
+		<div class="search-container">
+			<div class="main-page">
+				<h1 class="page-title">Explore the WikiHood</h1>
+				<hr class="hidden">
+			</div>
+			<div class="zipcode-search">
+				<input id="address" class="address" type="textbox" placeholder="Enter Location">
+				<input class="submit" type="button" value="Search">
+				<img class="or-img" src="images/img_or.png">
+				<input class="find-me" type="button" value="Find My Location" img src="/images/btn_findLocation.png">
+			</div>
+			<!-- add background css class to search container. add results container div -->
 			<div id="results-container"></div>
 		</div>
 
