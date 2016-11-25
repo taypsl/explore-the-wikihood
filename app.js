@@ -105,25 +105,20 @@ function getWikiGeoData(state) {
 
 // functions that display to screen
 function displayWikiMarkers(state) {
-  var myinfowindow = new google.maps.InfoWindow({
-      content: contentString,
-      maxWidth: 300,
-  });
-
   for (var j=0; j<state.wikiData.length; j++) {
     var pageId = state.wikiData[j].pageid;
     var pageTitle = state.wikiData[j].title;
     var extract = state.wikiData[j].extract;
     var latlon = state.wikiData[j].coordinates[0];
     var contentString = '<div id="content">'+
-          '<h1 class="markerHeading">' + pageTitle+ '</a></h1>'+
+          '<h1 class="markerHeading">' + pageTitle+ '</h1>'+
           '<p>' + extract + '</p>'+
-          '<p a href="https://en.wikipedia.org/?curid=' + pageId+ '">' + '>Read more</p>'+
+          '<p><a href="https://en.wikipedia.org/?curid=' + pageId+ '" target="_blank">' + 'Read more</a></p>'+
           '</div>';
-  /*  var myinfowindow = new google.maps.InfoWindow({
-      content: contentString,
-      maxWidth: 300,
-    }); */
+  	var myinfowindow = new google.maps.InfoWindow({
+     	content: contentString,
+      	maxWidth: 300,
+    });
 
     var marker = new google.maps.Marker({
       position: latlon,
@@ -133,9 +128,10 @@ function displayWikiMarkers(state) {
       icon: 'images/icn_blue.png'
     });
 
-      google.maps.event.addListener(marker, 'click', function() {
-          this.infowindow.open(map, this);
-    });
+    google.maps.event.addListener(marker, 'click', function() {
+    	this.infowindow.open(map, this);
+    })
+
     state.markers.push(marker)
   }
 }
@@ -175,9 +171,9 @@ $('.submit').on('click', function(e) {
       geocodeSearch(state);
       $('.zipcode-search').addClass('new-search');
       $('.sidebar').removeClass('hidden');
-      $('html').css({'background': 'none', 'overflow': ''});
+      $('html').css({'background': 'none'});
       $('.or-img').addClass('hidden');
-      $('.submit').addClass('new-page-button');
+      $('.submit').addClass('new-submit');
       $('.find-me').addClass('hidden');
       $('.page-title').addClass('new-page-title');
       $('.page-title').text('WikiHood');
@@ -199,7 +195,7 @@ $('input').keydown( function(e) {
       $('.sidebar').removeClass('hidden');
       $('html').css({'background': 'none', 'overflow': ''});
       $('.or-img').addClass('hidden');
-      $('.submit').addClass('new-page-button');
+      $('.submit').addClass('new-submit');
       $('.find-me').addClass('hidden');
       $('.page-title').addClass('new-page-title');
       $('.page-title').text('WikiHood');
@@ -220,7 +216,7 @@ $('.find-me').on('click', function(e) {
       $('.sidebar').removeClass('hidden');
       $('html').css({'background': 'none', 'overflow': ''});
       $('.or-img').addClass('hidden');
-      $('.submit').addClass('new-page-button');
+      $('.submit').addClass('new-submit');
       $('.find-me').addClass('hidden');
       $('.page-title').addClass('new-page-title');
       $('.page-title').text('WikiHood');
