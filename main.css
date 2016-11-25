@@ -4,6 +4,7 @@
  * element that contains the map. */
 #map {
   height: 100%;
+  display: block;
 }
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -12,33 +13,129 @@ html, body {
   padding: 0;
 }
 
-.zipcode-search, .find-me {
+/* background image landing page */
+html {
+  background: url(images/background.png) no-repeat center center fixed; /* "background image": "none"; */
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  overflow: hidden;
+
+}
+
+/* css classes for landing page */
+.search-container {
 	text-align: center;
-	z-index: 100;
+	margin: 150px 0 0 0;
 }
 
-.new-search {
-	position: absolute;
-	right: 0;
-	top: 0;
+.page-title {
+	font-family: "Cinzel";
+	font-size: 3em;
+	color: #ffffff;
 }
 
-#results-container {
-	width: 200px;
-	color: black;
-	font-size: .5em;
-	padding-left: 10px;
-	background-color: gainsboro;
-	position: absolute;
-	right: 0;
-	top: 10;
-	z-index: 10;
+.or-img {
+	vertical-align: middle;
+	margin: 0 0 0 15px;
 }
 
-.markerHeading {
-	font-size: 1.2em;
+.address {
+	font-size: 1em;
+	opacity: 25%; 
+	font-family: "Raleway";
+
 }
 
+.submit {
+	font-family: "Raleway";
+	border: 2px solid #ffffff;
+	margin-left: 10px;
+	color: #ffffff;
+	font-size: 1em;
+	background-color: transparent;
+}
+
+.find-me {
+	font-family: "Raleway";
+	border: 2px solid #ffffff;
+	margin-left: 10px;
+	color: #ffffff;
+	font-size: 1em;
+	background-color: transparent;
+}
+
+.submit, .find-me:hover {
+	cursor: pointer;
+} 
+
+/* new css classes for results page */
 .hidden {
 	display: none;
 }
+
+.display {
+	width: 250px;
+	background-color: #ffffff;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 10;
+	text-align: left;
+}
+
+.new-page-title {
+	font-family: "Cinzel";
+	font-size: 1.5em;
+	color: #000000;
+	letter-spacing: 3px;
+	padding-left: 10px
+}
+
+.new-address {
+	font-size: .8em;
+	opacity: 25%; 
+	margin-left: 20px;
+}
+
+.new-page-button {
+	border: 1px solid #000000;
+	margin: 10px;
+	color: #000000;
+	font-size: .8em;
+	background-color: transparent;
+}
+
+#results-container {
+	font-family: "Raleway", sans-serif;
+	font-size: .5em;
+	padding-left: 20px;
+	opacity: .75;
+	overflow: scroll;
+}
+
+/* info window styling */
+a:link {
+	text-decoration: underline;
+	color: #48a5e5;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: underline;
+}
+
+.markerHeading {
+	font-size: 1.5em;
+}
+
+
+
+
+
+
