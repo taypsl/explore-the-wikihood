@@ -187,7 +187,6 @@ $('.submit').on('click', function(e) {
 
 $('input').keydown( function(e) {
     if (e.which == 13) {
-      console.log("ugh");
       $('#address').submit();
       initialize();
       geocodeSearch(state);
