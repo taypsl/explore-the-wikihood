@@ -7,10 +7,10 @@
 // locate you.'
 
 var state = {
-	userLocation: {},
-	wikiUrl: "",
-	wikiData: [], // array of objects { title: object.title,  url: .url, img: , desc: }
-	markers: []
+  userLocation: {},
+  wikiUrl: "",
+  wikiData: [], // array of objects { title: object.title,  url: .url, img: , desc: }
+  markers: []
 };
 
   //initialize map
@@ -21,7 +21,7 @@ function initialize() {
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(51.531703, -0.124310);
     var mapOptions = {
-      zoom: 15,
+      zoom: 14,
       center: latlng
     }
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -81,92 +81,157 @@ function geocodeSearch(state) {
 }
 
 function getWikiUrl(state) {
-    state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms%7Cextracts&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&exchars=200&exlimit=20&exintro=1&' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=5'
+    state.wikiUrl = 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms%7Cextracts&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&exchars=300&exlimit=20&exintro=1&' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=15'
 } 
 
 function getWikiGeoData(state) {
     $.ajax({
-    	url: state.wikiUrl,
-    	dataType: 'jsonp',
-    	type: 'POST', 
-    	success: function(data) {
-    		var pageId = Object.keys(data.query.pages);
-	        for (var i=0; i<pageId.length; i++) { 
-	        	state.wikiData[i] = data.query.pages[pageId[i]]; 
-	        	state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
-	        	state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
-        	}
+      url: state.wikiUrl,
+      dataType: 'jsonp',
+      type: 'POST', 
+      success: function(data) {
+        var pageId = Object.keys(data.query.pages);
+          for (var i=0; i<pageId.length; i++) { 
+            state.wikiData[i] = data.query.pages[pageId[i]]; 
+            state.wikiData[i].coordinates[0].lat = Number(state.wikiData[i].coordinates[0].lat);
+            state.wikiData[i].coordinates[0].lng = Number(state.wikiData[i].coordinates[0].lon);
+          }
         displayWikiMarkers(state);
         displayWikiList(state);
-    	}
-	})
+      }
+  })
 };
 
 
 // functions that display to screen
 function displayWikiMarkers(state) {
-	for (var j=0; j<state.wikiData.length; j++) {
-		var pageId = state.wikiData[j].pageid;
-		var pageTitle = state.wikiData[j].title;
-		var extract = state.wikiData[j].extract;
-		var latlon = state.wikiData[j].coordinates[0];
-		var contentString = '<div id="content">'+
-        	'<h1 class="markerHeading"><a href="https://en.wikipedia.org/?curid=' +  pageId+ 
-        	'">' + pageTitle+ '</a></h1>'+
-        	'<p>' + extract + '</p>'+
-        	'</div>';
-		var myinfowindow = new google.maps.InfoWindow({
-			content: contentString,
-			maxWidth: 300,
-		});
+  var myinfowindow = new google.maps.InfoWindow({
+      content: contentString,
+      maxWidth: 300,
+  });
 
-		var marker = new google.maps.Marker({
-			position: latlon,
-			map: map,
-			title: pageTitle,
-			infowindow: myinfowindow
-			//icon: 'http://1.bp.blogspot.com/_GZzKwf6g1o8/S6xwK6CSghI/AAAAAAAAA98/_iA3r4Ehclk/s1600/marker-green.png'
-		});
+  for (var j=0; j<state.wikiData.length; j++) {
+    var pageId = state.wikiData[j].pageid;
+    var pageTitle = state.wikiData[j].title;
+    var extract = state.wikiData[j].extract;
+    var latlon = state.wikiData[j].coordinates[0];
+    var contentString = '<div id="content">'+
+          '<h1 class="markerHeading">' + pageTitle+ '</a></h1>'+
+          '<p>' + extract + '</p>'+
+          '<p a href="https://en.wikipedia.org/?curid=' + pageId+ '">' + '>Read more</p>'+
+          '</div>';
+  /*  var myinfowindow = new google.maps.InfoWindow({
+      content: contentString,
+      maxWidth: 300,
+    }); */
 
-    	google.maps.event.addListener(marker, 'click', function() {
-        	this.infowindow.open(map, this);
-		});
-		state.markers.push(marker)
-	}
-	console.log(state.markers);
+    var marker = new google.maps.Marker({
+      position: latlon,
+      map: map,
+      title: pageTitle,
+      infowindow: myinfowindow,
+      icon: 'images/icn_blue.png'
+    });
+
+      google.maps.event.addListener(marker, 'click', function() {
+          this.infowindow.open(map, this);
+    });
+    state.markers.push(marker)
+  }
 }
-
-
-
-/// what if infoWindow { content: contentString} and contentString = state.wikiData[j].title? and then
-/// search by position of object in array?
 
 function displayWikiList(state) {
     var resultElement = '';
     for (var j=0; j<state.wikiData.length; j++) {
-      resultElement += '<h1 class="title">' + state.wikiData[j].title + '</h1>';
+      resultElement += '<h1 class="results-title">' + state.wikiData[j].title + '</h1>';
     }
     $('#results-container').html(resultElement);
 };
 
-$('#results-container').on('mouseover', '.title', function(e) {
-	var index = $(this).index();
-	state.markers[index].setIcon('http://1.bp.blogspot.com/_GZzKwf6g1o8/S6xwK6CSghI/AAAAAAAAA98/_iA3r4Ehclk/s1600/marker-green.png');
+$('#results-container').on('mouseover', '.results-title', function(e) {
+  var index = $(this).index();
+  state.markers[index].setIcon('images/icn_orange.png');
+})
+
+$('#results-container').on('mouseout', '.results-title', function(e) {
+  var index = $(this).index();
+  state.markers[index].setIcon('images/icn_blue.png');
 })
 
 //listeners
+$('.markerHeading').on('click', function(e) {
+  for (var j=0; j<state.wikiData.length; j++) {
+  }  
+})
+
+$('#results-container').on('click', '.results-title', function(e) {
+  var index = $(this).index();
+  state.markers[index].infowindow.open(map, state.markers[index]);
+})
+
+
 $('.submit').on('click', function(e) {
       initialize();
       geocodeSearch(state);
       $('.zipcode-search').addClass('new-search');
+      $('.sidebar').removeClass('hidden');
+      $('html').css({'background': 'none', 'overflow': ''});
+      $('.or-img').addClass('hidden');
+      $('.submit').addClass('new-page-button');
+      $('.find-me').addClass('hidden');
+      $('.page-title').addClass('new-page-title');
+      $('.page-title').text('WikiHood');
+      $('#address').addClass('new-address');
+      $('#address').val('');
+      $('.search-container').addClass('display');
+      $('hr').removeClass('hidden');
+      $('.logo').removeClass('hidden');
+      $('.search-container').css({'margin': '0'});
+});
+
+$('input').keydown( function(e) {
+    if (e.which == 13) {
+      console.log("ugh");
+      $('#address').submit();
+      initialize();
+      geocodeSearch(state);
+      $('.zipcode-search').addClass('new-search');
+      $('.sidebar').removeClass('hidden');
+      $('html').css({'background': 'none', 'overflow': ''});
+      $('.or-img').addClass('hidden');
+      $('.submit').addClass('new-page-button');
+      $('.find-me').addClass('hidden');
+      $('.page-title').addClass('new-page-title');
+      $('.page-title').text('WikiHood');
+      $('#address').addClass('new-address');
+      $('#address').val('');
+      $('.search-container').addClass('display');
+      $('hr').removeClass('hidden');
+      $('.logo').removeClass('hidden');
+      $('.search-container').css({'margin': '0'});
+      return false; 
+    }
 });
 
 $('.find-me').on('click', function(e) {
       initialize();
       getCurrentLocation(state);
       $('.zipcode-search').addClass('new-search');
-      $('.find-me').addClass('hidden'); // delete this...
+      $('.sidebar').removeClass('hidden');
+      $('html').css({'background': 'none', 'overflow': ''});
+      $('.or-img').addClass('hidden');
+      $('.submit').addClass('new-page-button');
+      $('.find-me').addClass('hidden');
+      $('.page-title').addClass('new-page-title');
+      $('.page-title').text('WikiHood');
+      $('#address').addClass('new-address');
+      $('.search-container').addClass('display');
+      $('hr').removeClass('hidden');
+      $('.logo').removeClass('hidden');
+      $('.search-container').css({'margin': '0'});
 });
+
+
 
 
 
