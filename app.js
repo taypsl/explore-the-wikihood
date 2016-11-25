@@ -204,7 +204,7 @@ $('input').keydown( function(e) {
       $('.page-title').text('WikiHood');
       $('#address').addClass('new-address');
       $('#address').val('');
-      $('.search-container').addClass('display');
+      $('.search-container').addClass('display').removeClass('search-container');
       $('hr').removeClass('hidden');
       $('.logo').removeClass('hidden');
       $('.search-container').css({'margin': '0'});
