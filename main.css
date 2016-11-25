@@ -90,6 +90,7 @@ html {
 	z-index: 10;
 	text-align: left;
 	opacity: .85;
+	overflow: auto;
 }
 
 .new-page-title {

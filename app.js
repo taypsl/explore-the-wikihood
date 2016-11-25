@@ -176,7 +176,7 @@ $(document).ready(function() {
 		geocodeSearch(state);
 		$('.zipcode-search').addClass('new-search');
 		$('.sidebar').removeClass('hidden');
-		$('html').css({'background': 'none'});
+		$('html').css({'background': 'none', 'overflow': ''});
 		$('.or-img').addClass('hidden');
 		$('.submit').addClass('new-submit');
 		$('.find-me').addClass('hidden');
