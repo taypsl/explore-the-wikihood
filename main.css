@@ -22,7 +22,6 @@ html {
   -o-background-size: cover;
   background-size: cover;
   width: 100%;
-  overflow: hidden;
 }
 
 /* css classes for landing page */
@@ -30,6 +29,11 @@ html {
 	display: block;
 	text-align: center;
 	margin: 200px 0 0 0;
+}
+
+body {
+	overflow: hidden;
+
 }
 
 .page-title {
