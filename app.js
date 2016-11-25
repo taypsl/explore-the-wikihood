@@ -108,6 +108,27 @@ $(document).ready(function() {
 	};
 
 
+	var myinfowindow = new google.maps.InfoWindow({
+		content: "contentString",
+		maxWidth: 300,
+	});
+
+	function createMarker(latlon, pageTitle, contentString){
+		var marker = new google.maps.Marker({
+			position: latlon,
+			map: map,
+			title: pageTitle,
+			infowindow: myinfowindow,
+			contentString: contentString,
+			icon: 'images/icn_blue.png'
+		});
+		google.maps.event.addListener(marker, 'click', function() {
+			this.infowindow.setContent(marker.contentString);
+			this.infowindow.open(map, this);
+		})
+		state.markers.push(marker)
+	}
+
 	// functions that display to screen
 	function displayWikiMarkers(state) {
 		for (var j=0; j<state.wikiData.length; j++) {
@@ -120,26 +141,9 @@ $(document).ready(function() {
 			'<p>' + extract + '</p>'+
 			'<p><a href="https://en.wikipedia.org/?curid=' + pageId+ '" target="_blank">' + 'Read more</a></p>'+
 			'</div>';
-			var myinfowindow = new google.maps.InfoWindow({
-				content: contentString,
-				maxWidth: 300,
-			});
-
-			var marker = new google.maps.Marker({
-				position: latlon,
-				map: map,
-				title: pageTitle,
-				infowindow: myinfowindow,
-				icon: 'images/icn_blue.png'
-			});
-
-			google.maps.event.addListener(marker, 'click', function() {
-				this.infowindow.open(map, this);
-			})
-
-			state.markers.push(marker)
+			createMarker(latlon, pageTitle, contentString);
 		}
-	}
+	};
 
 	function displayWikiList(state) {
 		var resultElement = '';
