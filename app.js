@@ -79,7 +79,7 @@ function geocodeSearch(state) {
 
         //change this alert text "Whoops, that address didn't work! Try your search again."
       } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+        alert('Geocode was not successful. Try a new location!');
       }
     });
 }
