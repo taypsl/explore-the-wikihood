@@ -38,10 +38,6 @@ html {
 	color: #ffffff;
 }
 
-.zipcode-search {
-	text-align: center;
-}
-
 .or-img {
 	vertical-align: middle;
 	margin: 0 0 0 15px;
@@ -152,6 +148,10 @@ a:active {
 
 /* mobile */
 @media only screen and (max-device-width: 480px) {
+	.zipcode-search {
+		text-align: center;
+	}
+	
 	.search-container {
 		margin: 150px 0 0 0;
 	}
@@ -220,7 +220,7 @@ a:active {
 		z-index: 10;
 		overflow: scroll;
 	}
-
+	
 	.hidden {
 		display: none;
 	}
