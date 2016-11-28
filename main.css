@@ -161,7 +161,6 @@ a:active {
 	}
 	.address, .submit {
 		display: inline-block;
-		width: 50%;
 		margin: 10px auto 0 auto;
 	}
 
@@ -173,15 +172,22 @@ a:active {
 		font-size: 1.25em;
 		color: #000000;
 		letter-spacing: 3px;
-		padding-left: 10px
+		padding-left: 10px;
 	}
 
 	.find-me {
 		display: none;
 	}
 
+	.new-search {
+		text-align: left;
+		display: inline-block;
+	}
+
 	.new-address {
 		font-size: .8em;
+		display: inline-block;
+		margin: 0 0 0 20px;
 	}
 
 	.new-submit {
@@ -190,18 +196,19 @@ a:active {
 		color: #000000;
 		font-size: .8em;
 		background-color: transparent;
+		display: inline-block;
 	}
 
 	.display {
+		width: 100%;
 		position: absolute;
 		bottom: 0;
-		width: 100%;
 		top: 70%;
 		background-color: #ffffff;
 		text-align: left;
 		opacity: .85;
 		z-index: 10;
-		overflow: auto;
+		overflow: scroll;
 	}
 
 }
