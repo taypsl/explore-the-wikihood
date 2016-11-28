@@ -1,5 +1,4 @@
 
-
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 #map {
@@ -16,7 +15,7 @@ html, body {
 
 /* background image landing page */
 html {
-  background: url(images/background.png) no-repeat center center fixed; /* "background image": "none"; */
+  background: url(images/background.png) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -24,11 +23,12 @@ html {
   width: 100%;
 }
 
-/* css classes for landing page */
+/* element styles for landing page */
 .search-container {
+	height: 90vh;
 	display: block;
 	text-align: center;
-	margin: 200px 0 0 0;
+	margin: 200px 0 100px 0;
 }
 
 body {
@@ -79,7 +79,7 @@ body {
 	cursor: pointer;
 } 
 
-/* new css classes for results page */
+/* new element styles for results page */
 .hidden {
 	display: none;
 }
@@ -94,6 +94,7 @@ body {
 	z-index: 10;
 	text-align: left;
 	opacity: .85;
+	overflow: auto;
 }
 
 .new-page-title {
@@ -124,6 +125,10 @@ body {
 	overflow: auto;
 }
 
+.list-paragraph {
+	font-size: 1.5em;
+}
+
 /* info window styling */
 a:link {
 	text-decoration: underline;
@@ -145,26 +150,38 @@ a:active {
 }
 
 /* mobile */
-
 @media only screen and (max-device-width: 480px) {
+	.search-container {
+		margin: 150px 0 0 0;
+	}
+
 	.page-title {
 		font-size: 2.5em;
 	}
 	.address, .submit {
-		display: block;
-		margin: 10px auto 0 auto;
+		display: inline-block;
+		margin: 0 0 0 10px;
 	}
+
 	.address {
-		margin-bottom: 15px;
+		margin-left: 15px;
 	}
 
 	.or-img {
 		display: none;
 	}
 	.or-img-mobile {
-		display: inline-block;
+		display: block;
 		margin: 10px auto 0 auto;
 	}
+
+	.new-page-title {
+		font-size: 1.25em;
+		color: #000000;
+		letter-spacing: 3px;
+		padding-left: 10px
+	}
+
 	.find-me {
 		display: block;
 		margin: auto;
@@ -178,7 +195,7 @@ a:active {
 		text-align: left;
 		opacity: .85;
 		z-index: 10;
-		overflow: scroll;
+		overflow: auto;
 	}
 
 }
