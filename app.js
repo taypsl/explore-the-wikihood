@@ -187,7 +187,6 @@ $(document).ready(function() {
 		$('.sidebar').removeClass('hidden');
 		$('html').css({'background': 'none', 'overflow': ''});
 		$('.or-img').addClass('hidden');
-		$('.or-img-mobile').css({'display':'none'});
 		$('.submit').addClass('new-submit');
 		$('.find-me').css({'display':'none'});
 		$('.page-title').addClass('new-page-title');

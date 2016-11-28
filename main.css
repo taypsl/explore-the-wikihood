@@ -38,10 +38,8 @@ html {
 	color: #ffffff;
 }
 
-.page-info {
-	font-family: "Raleway";
-	margin: 0 0 50px 0;
-	color: #ededed;
+.zipcode-search {
+	text-align: center;
 }
 
 .or-img {
@@ -163,19 +161,12 @@ a:active {
 	}
 	.address, .submit {
 		display: inline-block;
-		margin: 0 0 0 10px;
-	}
-
-	.address {
-		margin-left: 15px;
+		width: 50%;
+		margin: 10px auto 0 auto;
 	}
 
 	.or-img {
 		display: none;
-	}
-	.or-img-mobile {
-		display: block;
-		margin: 10px auto 0 auto;
 	}
 
 	.new-page-title {
@@ -186,9 +177,21 @@ a:active {
 	}
 
 	.find-me {
-		display: block;
-		margin: auto;
+		display: none;
 	}
+
+	.new-address {
+		font-size: .8em;
+	}
+
+	.new-submit {
+		border: 1px solid #000000;
+		margin: 10px;
+		color: #000000;
+		font-size: .8em;
+		background-color: transparent;
+	}
+
 	.display {
 		position: absolute;
 		bottom: 0;
