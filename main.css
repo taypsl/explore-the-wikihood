@@ -38,6 +38,10 @@ html {
 	color: #ffffff;
 }
 
+.zipcode-search {
+	text-align: center;
+}
+
 .or-img {
 	vertical-align: middle;
 	margin: 0 0 0 15px;
@@ -76,10 +80,6 @@ html {
 } 
 
 /* new element styles for results page */
-.hidden {
-	display: none;
-}
-
 .display {
 	width: 300px;
 	height: 100%;
@@ -138,11 +138,16 @@ a:visited {
 a:active {
 	text-decoration: underline;
 	color: #48a5e5;
+	cursor: pointer;
 
 }
 
 .markerHeading {
 	font-size: 1.5em;
+}
+
+.hidden {
+	display: none;
 }
 
 /* mobile */
@@ -156,7 +161,7 @@ a:active {
 	}
 	.address, .submit {
 		display: inline-block;
-		margin: 0 0 0 10px;
+		margin: 10px auto 0 auto;
 	}
 
 	.address {
@@ -166,6 +171,7 @@ a:active {
 	.or-img {
 		display: none;
 	}
+
 	.or-img-mobile {
 		display: block;
 		margin: 10px auto 0 auto;
@@ -182,17 +188,41 @@ a:active {
 		display: block;
 		margin: auto;
 	}
+
+	.new-search {
+		text-align: left;
+		display: inline-block;
+	}
+
+	.new-address {
+		font-size: .8em;
+		display: inline-block;
+		margin: 0 0 0 20px;
+	}
+
+	.new-submit {
+		border: 1px solid #000000;
+		margin: 10px;
+		color: #000000;
+		font-size: .8em;
+		background-color: transparent;
+		display: inline-block;
+	}
+
 	.display {
+		width: 100%;
 		position: absolute;
 		bottom: 0;
-		width: 100%;
 		top: 70%;
 		background-color: #ffffff;
 		text-align: left;
 		opacity: .85;
 		z-index: 10;
-		overflow: auto;
+		overflow: scroll;
 	}
-
-} 
+	
+	.hidden {
+		display: none;
+	}
+}
 
