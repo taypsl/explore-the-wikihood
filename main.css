@@ -38,6 +38,12 @@ html {
 	color: #ffffff;
 }
 
+.page-info {
+	font-family: "Raleway";
+	margin: 0 0 50px 0;
+	color: #ededed;
+}
+
 .or-img {
 	vertical-align: middle;
 	margin: 0 0 0 15px;
@@ -138,6 +144,7 @@ a:visited {
 a:active {
 	text-decoration: underline;
 	color: #48a5e5;
+	cursor: pointer;
 
 }
 
