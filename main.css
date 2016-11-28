@@ -80,10 +80,6 @@ html {
 } 
 
 /* new element styles for results page */
-.hidden {
-	display: none;
-}
-
 .display {
 	width: 300px;
 	height: 100%;
@@ -150,6 +146,10 @@ a:active {
 	font-size: 1.5em;
 }
 
+.hidden {
+	display: none;
+}
+
 /* mobile */
 @media only screen and (max-device-width: 480px) {
 	.search-container {
@@ -164,19 +164,29 @@ a:active {
 		margin: 10px auto 0 auto;
 	}
 
+	.address {
+		margin-left: 15px;
+	}
+
 	.or-img {
 		display: none;
+	}
+
+	.or-img-mobile {
+		display: block;
+		margin: 10px auto 0 auto;
 	}
 
 	.new-page-title {
 		font-size: 1.25em;
 		color: #000000;
 		letter-spacing: 3px;
-		padding-left: 10px;
+		padding-left: 10px
 	}
 
 	.find-me {
-		display: none;
+		display: block;
+		margin: auto;
 	}
 
 	.new-search {
@@ -211,5 +221,8 @@ a:active {
 		overflow: scroll;
 	}
 
+	.hidden {
+		display: none;
+	}
 }
 
