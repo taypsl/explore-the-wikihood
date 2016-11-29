@@ -26,7 +26,7 @@ $(document).ready(function() {
 	}
 
 	//================================================================================
-	// Functions that get Location
+	// Functions that set State
 	//================================================================================
 
 	//user location automatically found with Geolocation
@@ -96,6 +96,10 @@ $(document).ready(function() {
 		})
 	};
 
+	function cleanMarkers(){
+		state.markers=[];
+	}
+
 	//================================================================================
 	// Functions that Display Markers + Info Windows + List
 	//================================================================================
@@ -103,7 +107,7 @@ $(document).ready(function() {
 	var myinfowindow = new google.maps.InfoWindow({
 		content: "contentString",
 		maxWidth: 300,
-		});
+	});
 
 	function createMarker(latlon, pageTitle, contentString){
 		var marker = new google.maps.Marker({
@@ -120,7 +124,7 @@ $(document).ready(function() {
 		})
 		state.markers.push(marker)
 	}
-
+	// functions that display to screen
 	function displayWikiMarkers(state) {
 		for (var j=0; j<state.wikiData.length; j++) {
 			var wikiListing =state.wikiData[j];
@@ -156,20 +160,23 @@ $(document).ready(function() {
 		state.markers[index].setIcon('images/icn_blue.png');
 	});
 
-	$('#results-container').on('click', function(e) {
-		$(this).removeClass('hidden');
-		$('#accordion').accordion();
+	$('#results-container').on('click', 'h1', function(e) {
+		$(this).next('div').toggleClass('hidden');
 	});
 
 	$('.submit').on('click', function(e) {
+		cleanMarkers();
 		initialize();
 		geocodeSearch(state);
 		updateDisplay()
 	});
 
+
 	$('input').keydown( function(e) {
 		if (e.which == 13) {
 			$('#address').submit();
+			cleanMarkers()
+			console.log(state)
 			initialize();
 			geocodeSearch(state);
 			updateDisplay()
@@ -200,4 +207,3 @@ $(document).ready(function() {
 		$('.search-container').css({'margin': '0'});
 	}
 });
-
