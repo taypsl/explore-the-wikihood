@@ -117,6 +117,10 @@ html {
 	overflow: auto;
 }
 
+.results-title {
+	cursor: pointer;
+}
+
 .list-paragraph {
 	font-size: 1.5em;
 }
@@ -151,7 +155,7 @@ a:active {
 	.zipcode-search {
 		text-align: center;
 	}
-	
+
 	.search-container {
 		margin: 150px 0 0 0;
 	}
