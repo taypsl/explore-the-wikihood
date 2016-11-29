@@ -158,7 +158,11 @@ $(document).ready(function() {
 
 	$('#results-container').on('click', function(e) {
 		$(this).removeClass('hidden');
-		$('#accordion').accordion();
+		$('#accordion').accordion({
+			collapsible: true,
+			active: false,
+			heightStyle: "content"
+		});
 	});
 
 	$('.submit').on('click', function(e) {
