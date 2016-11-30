@@ -140,10 +140,10 @@ $(document).ready(function() {
 	function displayWikiList(state) {
 		var resultElement = ''
 		for (var j=0; j<state.wikiData.length; j++) {
-			resultElement += '<h1 class="results-title" id="' + j +'">' + state.wikiData[j].title + '</h1><div class="list-paragraph hidden">' + state.wikiData[j].extract +
-			'<p><a href="https://en.wikipedia.org/?curid=' +  state.wikiData[j].pageid + '" target="_blank">' + 'Read more</a></p></div>';
+			resultElement += '<div>' + '<h1 class="results-title" id="' + j +'">' + state.wikiData[j].title + '</h1><div class="list-paragraph hidden">' + state.wikiData[j].extract +
+			'<p><a href="https://en.wikipedia.org/?curid=' +  state.wikiData[j].pageid + '" target="_blank">' + 'Read more</a></p></div>' + '</div>';
 		}
-		$('#results-container').html('<div id="accordion">' + resultElement + '</div>');
+		$('#results-container').html(resultElement);
 	};
 
 	//================================================================================
@@ -176,7 +176,6 @@ $(document).ready(function() {
 		if (e.which == 13) {
 			$('#address').submit();
 			cleanMarkers()
-			console.log(state)
 			initialize();
 			geocodeSearch(state);
 			updateDisplay()
