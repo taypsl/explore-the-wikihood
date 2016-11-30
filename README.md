@@ -5,7 +5,7 @@ Thinkful (https://www.thinkful.com/) Capstone 1 project: an app that integrates 
 ![Alt text](images/wikiHood_screens.png "Final Screens")
 
 ##Introduction
-WikiHood let’s you explore the world around you through location-based Wikipedia articles. Enter in a location or share your own to discover notable landmarks, fascinating histories, and unexpected events right in your own backyard. You might be surprised what you’ll find in your WikiHood.
+WikiHood lets you explore the world around you through location-based Wikipedia articles. Enter in a location or share your own to discover notable landmarks, fascinating histories, and unexpected events right in your own backyard. You might be surprised what you’ll find in your WikiHood.
 
 ##Use Case
 This app is particularly interesting for anyone who has ever gotten lost “down the wiki-hole”. WikiHood let’s you curate your Wikipedia browsing experience, while helping you learn new and fascinating things about your neighborhood. Planning a trip? WikiHood can be a resource to help you explore the quirky, less public history of the town you’re visiting. And with an easy-to-use geolocation feature, you can easily find interesting articles about your current location without having to input an address or zip code.
