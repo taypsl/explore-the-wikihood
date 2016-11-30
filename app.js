@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	"use strict";
 
-	//initialize map
+	//set state variable and initialize map
 	var geocoder;
 	var map;
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
 			'Error: Your browser doesn\'t support geolocation.');
 		};
 
-	// user inputs address
+	// user inputs address at search
 	function geocodeSearch(state) {
 		var addressSearch = document.getElementById('address').value;
 		geocoder.geocode( { 'address': addressSearch}, function(results, status) {
@@ -74,6 +74,7 @@ $(document).ready(function() {
 		});
 	}
 
+	// wikipedia api url that updates with lat/long coordinates from state variable
 	function getWikiUrl(state) {
 		return 'https://en.wikipedia.org/w/api.php?action=query&format=json&prop=coordinates%7Cpageimages%7Cpageterms%7Cextracts&generator=geosearch&colimit=50&piprop=thumbnail&pithumbsize=144&pilimit=50&wbptterms=description&exchars=300&exlimit=20&exintro=1&' + '&ggscoord=' + state.userLocation.lat + '%7C' + state.userLocation.lng + '&ggsradius=10000&ggslimit=15'
 	}
@@ -109,6 +110,7 @@ $(document).ready(function() {
 		maxWidth: 300,
 	});
 
+	// function that creates map markers, taking in item coordinates, page title, and content excerpt
 	function createMarker(latlon, pageTitle, contentString){
 		var marker = new google.maps.Marker({
 			position: latlon,
@@ -124,7 +126,7 @@ $(document).ready(function() {
 		})
 		state.markers.push(marker)
 	}
-	// functions that display to screen
+	// functions that display markers and article list to screen
 	function displayWikiMarkers(state) {
 		for (var j=0; j<state.wikiData.length; j++) {
 			var wikiListing =state.wikiData[j];
@@ -171,7 +173,6 @@ $(document).ready(function() {
 		updateDisplay()
 	});
 
-
 	$('input').keydown( function(e) {
 		if (e.which == 13) {
 			$('#address').submit();
@@ -188,6 +189,7 @@ $(document).ready(function() {
 		updateDisplay()
 	});
 
+	// holds the handlers that will update the display on location search
 	function updateDisplay(){
 		$('.zipcode-search').addClass('new-search');
 		$('.sidebar').removeClass('hidden');
