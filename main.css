@@ -31,7 +31,7 @@ html {
 }
 
 .page-title {
-	font-family: "Cinzel";
+	font-family: 'Cinzel';
 	font-size: 3em;
 	color: #ffffff;
 }
@@ -47,12 +47,12 @@ html {
 
 .address {
 	font-size: 1em;
-	font-family: "Raleway";
+	font-family: 'Raleway';
 	opacity: .85;
 }
 
 .submit {
-	font-family: "Raleway";
+	font-family: 'Raleway';
 	border: 2px solid #ffffff;
 	margin-left: 10px;
 	color: #ffffff;
@@ -61,7 +61,7 @@ html {
 }
 
 .find-me {
-	font-family: "Raleway";
+	font-family: 'Raleway';
 	border: 2px solid #ffffff;
 	margin-left: 10px;
 	color: #ffffff;
@@ -88,7 +88,7 @@ html {
 }
 
 .new-page-title {
-	font-family: "Cinzel";
+	font-family: 'Cinzel';
 	font-size: 1.5em;
 	color: #000000;
 	letter-spacing: 3px;
@@ -109,7 +109,7 @@ html {
 }
 
 #results-container {
-	font-family: "Raleway", sans-serif;
+	font-family: 'Raleway', sans-serif;
 	font-size: .5em;
 	padding-left: 20px;
 	overflow: auto;
