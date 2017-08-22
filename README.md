@@ -4,6 +4,9 @@ Thinkful (https://www.thinkful.com/) Capstone 1 project: an app that integrates 
 
 ![Alt text](images/wikiHood_screens.png "Final Screens")
 
+## Live Site
+You can access WikiHood at http://taypsl.github.io/explore-the-wikihood/
+
 ## Introduction
 WikiHood lets you explore the world around you through location-based Wikipedia articles. Enter in a location or share your own to discover notable landmarks, fascinating histories, and unexpected events right in your own backyard. You might be surprised what you’ll find in your WikiHood.
 
@@ -16,9 +19,6 @@ Wireframes for the early concepts for the landing page and main results pages ar
 ![Alt text](images/wireframes-desktop.png "Desktop Wireframes")
 
 ![Alt text](images/wireframes-mobile.png "Mobile Wireframes")
-
-## Live Site
-You can access WikiHood at http://taypsl.github.io/explore-the-wikihood/
 
 ## Technical
 - The app is built using HTML, CSS, and JavaScript
